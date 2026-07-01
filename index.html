@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>TRACKFAST</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PT Surabaya Shipping & Logistics | Price Checker</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #f4f6f9; color: #333; padding: 20px; }
+    .app { max-width: 1200px; margin: 0 auto; }
+    header { background: #1a365d; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .brand h1 { font-size: 24px; }
+    .tagline { font-size: 14px; opacity: 0.8; margin-top: 2px; }
+    .lead { font-size: 12px; opacity: 0.6; margin-top: 5px; }
+    .chip { background: #2b6cb0; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .small-card { background: #f8fafc; border: 1px solid #e2e8f0; }
+    h2, h3 { color: #2d3748; margin-bottom: 15px; }
+    p.small { font-size: 13px; color: #718096; margin-bottom: 15px; }
+    .row { display: flex; gap: 15px; margin-bottom: 10px; }
+    .col { flex: 1; display: flex; flex-direction: column; }
+    label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #4a5568; }
+    select, input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; }
+    .add-cost { display: flex; gap: 10px; }
+    .add-cost input[type="text"] { flex: 2; }
+    .add-cost input[type="number"] { flex: 1; }
+    button { padding: 12px 20px; background: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+    button:hover { background: #2c5282; }
+    button.secondary { background: #edf2f7; color: #4a5568; border: 1px solid #cbd5e1; }
+    button.secondary:hover { background: #e2e8f0; }
+    .controls { justify-content: flex-start; }
+    .breakdown .line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 14px; }
+    .breakdown .total { border-top: 2px solid #2d3748; font-weight: bold; font-size: 16px; margin-top: 10px; border-bottom: none; color: #1a365d; }
+    .muted { color: #718096; }
+    .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #a0aec0; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <img
+        src="images/logo-ssal-transparent.png"
+        alt="PT Surabaya Shipping & Logistics"
+        class="company-logo"
+        onerror="this.style.display='none'"
+      >
+      <div>
+        <h1>PT Surabaya Shipping & Logistics</h1>
+        <div class="tagline">Reliable Shipping, Trusted Logistics</div>
+        <p class="lead">International Courier Rate Calculator</p>
+      </div>
+    </div>
+    <div class="chip" id="routeChip">Surabaya → USA</div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="grid">
+    <!-- LEFT SIDE: INPUT FORM -->
+    <section class="card">
+      <h2>Rate Calculator</h2>
+      <p class="small">
+        Select your destination and package weight to calculate instant costs from our official June 2026 Regular Service matrix[cite: 4].
+      </p>
+
+      <!-- ORIGIN & DESTINATION -->
+      <div class="row">
+        <div class="col">
+          <label>Origin</label>
+          <select id="from">
+            <option value="surabaya" selected>Surabaya, Indonesia (SUB)</option>
+            <option value="jakarta">Jakarta, Indonesia (JKT)</option>
+            <option value="semarang">Semarang, Indonesia (SMG)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Destination</label>
+          <select id="to">
+            <optgroup label="SFI June 2026 Regular Service Countries">
+              <option value="usa" selected>United States (USA)</option>
+              <option value="australia">Australia (AUS)</option>
+              <option value="uk">United Kingdom (UK)</option>
+              <option value="europe">Europe Matrix (Zona 1-4)</option>
+              <option value="saudi_arabia">Saudi Arabia (KSA)</option>
+              <option value="egypt">Egypt / Mesir (EGY)</option>
+              <option value="japan">Japan (JPN)</option>
+              <option value="south_korea">South Korea (KOR)</option>
+              <option value="hong_kong">Hong Kong (HKG)</option>
+              <option value="singapore">Singapore (SGP)</option>
+              <option value="malaysia_west">Malaysia West (WM)</option>
+              <option value="malaysia_east">Malaysia East (EM)</option>
+              <option value="thailand">Thailand (THA)</option>
+              <option value="philippines">Philippines (PHL)</option>
+              <option value="vietnam">Vietnam (VNM)</option>
+            </optgroup>
+          </select>
+        </div>
+        <!-- DYNAMIC EUROPE ZONE OPTION -->
+        <div class="col" id="europeZoneWrap" style="display: none;">
+          <label>Europe Zone</label>
+          <select id="europeZone">
+            <option value="zone1" selected>Zona 1 (Netherlands, Germany, etc.)</option>
+            <option value="zone2">Zona 2 (France, Italy, etc.)</option>
+            <option value="zone3">Zona 3 (Finland, Spain, Sweden, etc.)</option>
+            <option value="zone4">Zona 4 (Bulgaria, Greece, Romania, etc.)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- WEIGHT & SERVICES -->
+      <div class="row" style="margin-top:10px">
+        <div class="col">
+          <label>Weight (kg)</label>
+          <input id="weight" type="number" min="1" max="500" value="5">
+        </div>
+        <div class="col">
+          <label>Service Level</label>
+          <select id="service">
+            <option value="standard">Standard Regular Service</option>
+            <option value="express">Express Surcharge (+20%)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>Incoterms</label>
+          <select id="incoterm">
+            <option value="FOB">FOB</option>
+            <option value="CIF">CIF</option>
+            <option value="CNF">CNF</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ADDITIONAL SURCHARGES -->
+      <div class="card small-card" style="margin-top:15px">
+        <label class="small">Manual Surcharges Adjustments (Optional)</label>
+        <div class="add-cost">
+          <input id="addLabel" type="text" placeholder="e.g., Remote Area Surcharge">
+          <input id="addValue" type="number" placeholder="Amount (IDR)">
+          <button class="secondary" id="addBtn">Add</button>
+        </div>
+        <div id="extrasList" style="margin-top:8px"></div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="row controls" style="margin-top:20px">
+        <button id="estimateBtn" style="flex: 2;">Calculate Price</button>
+        <button id="reset" class="secondary" style="flex: 1;">Reset</button>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDE: CALCULATION OUTPUT -->
+    <aside class="card h-100">
+      <h3>Price Breakdown</h3>
+      <div class="estimate" id="estimateArea">
+        <div class="breakdown" id="breakdown">
+          <div class="line">
+            <div class="muted">Base Freight Cost</div>
+            <div id="freightVal">-</div>
+          </div>
+          <div class="line">
+            <div class="muted">Weight Handling Surcharge</div>
+            <div id="truckVal">-</div>
+          </div>
+          <div class="line">
+            <div class="muted">Port & Customs Base Fee</div>
+            <div id="portVal">-</div>
+          </div>
+          <div class="line">
+            <div class="muted">Insurance Coverage</div>
+            <div id="insVal">-</div>
+          </div>
+          <div class="line">
+            <div class="muted">Additional Custom Surcharges</div>
+            <div id="extrasVal">-</div>
+          </div>
+          <div class="line total">
+            <div>Total Estimated Cost</div>
+            <div id="totalVal">-</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    © 2026 PT Surabaya Shipping & Logistics. All Rights Reserved.
+  </footer>
+</div>
+
+<script>
+  // Complete SFI June 2026 Grid Matrix with updated data[cite: 4]
+  const SFI_PRICELIST = {
+    usa: {
+      1: 828000, 2: 1060000, 3: 1335000, 4: 1585000, 5: 1973000, 6: 2225000, 7: 2484000, 
+      8: 2776000, 9: 3067000, 10: 3318000, 11: 3570000, 12: 3853000, 13: 4137000, 14: 4428000, 
+      15: 4712000, 16: 5028000, 17: 5311000, 18: 5595000, 19: 5878000, 20: 6194000, 21: 6469000, 
+      22: 6753000, 23: 7004000, 24: 7263000, 25: 7515000, 26: 7798000, 27: 8090000, 28: 8365000, 
+      29: 8616000, 30: 8876000,
+      surchargeThreshold: 22, 
+      surchargeFee: 400000
+    },
+    australia: {
+      1: 371000, 2: 508000, 3: 645000, 4: 781000, 5: 926000, 6: 1111000, 7: 1297000, 
+      8: 1482000, 9: 1667000, 10: 1852000, 11: 2037000, 12: 2222000, 13: 2407000, 14: 2593000, 
+      15: 2778000, 16: 2963000, 17: 3148000, 18: 3333000, 19: 3518000, 20: 3704000, 21: 3889000, 
+      22: 4074000, 23: 4259000, 24: 4444000, 25: 4629000, 26: 4814000, 27: 5000000, 28: 5185000, 
+      29: 5370000, 30: 5555000,
+      surchargeThreshold: 30,
+      surchargeFee: 450000
+    },
+    uk: {
+      1: 439000, 2: 725000, 3: 1002000, 4: 1296000, 5: 1573000, 6: 1851000, 7: 2128000, 
+      8: 2398000, 9: 2676000, 10: 2953000, 11: 3247000, 12: 3516000, 13: 3794000, 14: 4071000, 
+      15: 4349000, 16: 4618000, 17: 4896000, 18: 5173000, 19: 5451000, 20: 5721000, 21: 6054000, 
+      22: 6332000, 23: 6601000, 24: 6879000, 25: 7157000, 26: 7426000, 27: 7704000, 28: 7981000, 
+      29: 8259000, 30: 8528000,
+      surchargeThreshold: 30,
+      surchargeFee: 1150000
+    },
+    saudi_arabia: {
+      1: 522000, 2: 664000, 3: 807000, 4: 966000, 5: 1125000, 6: 1276000, 7: 1435000, 
+      8: 1594000, 9: 1745000, 10: 1903000, 11: 2062000, 12: 2212000, 13: 2372000, 14: 2531000, 
+      15: 2682000, 16: 2841000, 17: 3000000, 18: 3150000, 19: 3309000, 20: 3468000, 21: 3619000, 
+      22: 3778000, 23: 3937000, 24: 4088000, 25: 4247000,
+      maxWeight: 25
+    },
+    egypt: {
+      1: 245000, 2: 343000, 3: 483000, 4: 623000, 5: 763000, 6: 987000, 7: 1085000, 
+      8: 1190000, 9: 1288000, 10: 1386000, 11: 1491000, 12: 1589000, 13: 1687000, 14: 1792000, 
+      15: 1890000, 16: 1988000, 17: 2093000, 18: 2191000, 19: 2289000, 20: 2394000, 21: 2492000, 
+      22: 2590000, 23: 2695000, 24: 2793000, 25: 2891000, 26: 2996000, 27: 3094000, 28: 3192000, 
+      29: 3297000, 30: 3395000,
+      maxWeight: 30
+    },
+    japan: { 1: 570000, 5: 1100000, 10: 1900000, 20: 3800000, 30: 5500000 },
+    south_korea: { 1: 550000, 5: 930000, 10: 1700000, 20: 3400000, 30: 5100000 },
+    hong_kong: { 1: 550000, 5: 900000, 10: 1600000, 20: 3100000, 30: 4800000 },
+
+    // Southeast Asia Matrix Data Lookups[cite: 4]
+    singapore: {
+      1: 138001, 2: 214001, 3: 308001, 4: 400001, 5: 492001, 6: 586001, 7: 678001, 8: 770001, 9: 864001, 10: 956001,
+      11: 1048001, 12: 1142001, 13: 1234001, 14: 1328001, 15: 1420011, 16: 1512001, 17: 1606001, 18: 1698001, 19: 1790001, 20: 1884001,
+      21: 1976001, 22: 2068001, 23: 2162001, 24: 2254001, 25: 2346001, 26: 2440011, 27: 2532001, 28: 2624001, 29: 2718001, 30: 2810001
+    },
+    malaysia_west: {
+      1: 150001, 2: 218001, 3: 310001, 4: 402001, 5: 494001, 6: 592001, 7: 688001, 8: 786001, 9: 884001, 10: 980001,
+      11: 1078001, 12: 1174001, 13: 1272001, 14: 1370011, 15: 1466001, 16: 1564001, 17: 1662001, 18: 1758001, 19: 1856001, 20: 1954001,
+      21: 2050011, 22: 2148001, 23: 2244001, 24: 2342001, 25: 2440011, 26: 2536001, 27: 2634001, 28: 2730011, 29: 2828001, 30: 2926001
+    },
+    malaysia_east: {
+      1: 262001, 2: 508001, 3: 716001, 4: 926001, 5: 1134001, 6: 1344001, 7: 1552001, 8: 1762001, 9: 1970001, 10: 2180001,
+      11: 2388001, 12: 2598001, 13: 2806001, 14: 3016001, 15: 3224001, 16: 3434001, 17: 3642001, 18: 3852001, 19: 4060001, 20: 4270001,
+      21: 4478001, 22: 4688001, 23: 4896001, 24: 5106001, 25: 5314001, 26: 5524001, 27: 5732001, 28: 5942001, 29: 6150001, 30: 6360001
+    },
+    thailand: {
+      surchargeThreshold: 20, surchargeFee: 550000,
+      1: 550001, 2: 630001, 3: 700001, 4: 900001, 5: 1100001, 6: 1320001, 7: 1540001, 8: 1760001, 9: 1980001, 10: 2200001,
+      11: 2420011, 12: 2640011, 13: 2860011, 14: 3080011, 15: 3300011, 16: 3520011, 17: 3740011, 18: 3960011, 19: 4180011, 20: 4400011,
+      21: 4620011, 22: 4840011, 23: 5060011, 24: 5280011, 25: 5500011, 26: 5720011, 27: 5940011, 28: 6160011, 29: 6380011, 30: 6600011
+    },
+    philippines: {
+      surchargeThreshold: 20, surchargeFee: 550000,
+      1: 550001, 2: 630001, 3: 700001, 4: 830001, 5: 1000001, 6: 1200001, 7: 1400001, 8: 1600001, 9: 1800001, 10: 2000001,
+      11: 2200011, 12: 2400011, 13: 2600011, 14: 2800011, 15: 3000011, 16: 3200011, 17: 3400011, 18: 3600011, 19: 3800011, 20: 4000011,
+      21: 4200011, 22: 4400011, 23: 4600011, 24: 4800011, 25: 5000011, 26: 5200011, 27: 5400011, 28: 5600011, 29: 5800011, 30: 6000011
+    },
+    vietnam: {
+      surchargeThreshold: 20, surchargeFee: 550000,
+      1: 550001, 2: 630001, 3: 700001, 4: 850001, 5: 1050001, 6: 1260001, 7: 1470001, 8: 1680001, 9: 1890001, 10: 2100001,
+      11: 2310011, 12: 2520011, 13: 2730011, 14: 2940011, 15: 3150011, 16: 3360011, 17: 3570011, 18: 3780011, 19: 3990011, 20: 4200011,
+      21: 4410011, 22: 4620011, 23: 4830011, 24: 5040011, 25: 5250011, 26: 5460011, 27: 5670011, 28: 5880011, 29: 6090011, 30: 6300011
+    },
+    
+    europe: {
+      surchargeThreshold: 40, surchargeFee: 500000,
+      zone1: {
+        1: 791000, 2: 1044000, 3: 1341000, 4: 1629000, 5: 1917000, 6: 2230000, 7: 2526000, 8: 2815000, 9: 3103000, 10: 3392000,
+        11: 3688000, 12: 3976000, 13: 4265000, 14: 4561000, 15: 4866000, 16: 5154000, 17: 5443000, 18: 5731000, 19: 6027000, 20: 6251000,
+        21: 6564000, 22: 6877000, 23: 7188650, 24: 7502000, 25: 7814000, 26: 8127000, 27: 8439000, 28: 8752000, 29: 9064000, 30: 9377000
+      },
+      zone2: {
+        1: 1105000, 2: 1358000, 3: 1655000, 4: 1943000, 5: 2231000, 6: 2544000, 7: 2840000, 8: 3129000, 9: 3417000, 10: 3706000,
+        11: 4002000, 12: 4290000, 13: 4579000, 14: 4875000, 15: 5188000, 16: 5476000, 17: 5765000, 18: 6061000, 19: 6350000, 20: 6573000,
+        21: 6902000, 22: 7231000, 23: 7559000, 24: 7888000, 25: 8217000, 26: 8545000, 27: 7938000, 28: 9203000, 29: 9531000, 30: 9860000
+      },
+      zone3: {
+        1: 1250000, 2: 1503000, 3: 1791000, 4: 2088000, 5: 2376000, 6: 2689000, 7: 2977000, 8: 3266000, 9: 3562000, 10: 3850000,
+        11: 4279000, 12: 4435000, 13: 4724000, 14: 5012000, 15: 5325000, 16: 5621000, 17: 5910000, 18: 6226000, 19: 6486000, 20: 6735000,
+        21: 7071000, 22: 7408000, 23: 7745000, 24: 8081000, 25: 8418000, 26: 8755000, 27: 9091000, 28: 9428000, 29: 9765000, 30: 10101000
+      },
+      zone4: {
+        1: 1467000, 2: 1745000, 3: 2057000, 4: 2362000, 5: 2674000, 6: 3003000, 7: 3315000, 8: 3628000, 9: 3932000, 10: 4245000,
+        11: 4557000, 12: 4862000, 13: 5175000, 14: 5487000, 15: 5816000, 16: 6128000, 17: 6433000, 18: 6745000, 19: 7058000, 20: 7361000,
+        21: 7689000, 22: 7999000, 23: 8362000, 24: 8637000, 25: 9038000, 26: 9348000, 27: 9750000, 28: 10059000, 29: 10462000, 30: 10771000
+      }
+    }
+  };
+
+  const extrasList = document.getElementById('extrasList');
+  const estimateBtn = document.getElementById('estimateBtn');
+  const resetBtn = document.getElementById('reset');
+  const routeChip = document.getElementById('routeChip');
+  const toDestination = document.getElementById('to');
+  const europeZoneWrap = document.getElementById('europeZoneWrap');
+  const europeZoneSelect = document.getElementById('europeZone');
+
+  let extras = [];
+
+  function formatIDR(amount) {
+    return 'Rp ' + Math.round(amount).toLocaleString('id-ID');
+  }
+
+  toDestination.addEventListener('change', () => {
+    if (toDestination.value === 'europe') {
+      europeZoneWrap.style.display = 'block';
+    } else {
+      europeZoneWrap.style.display = 'none';
+    }
+    updateRouteChip();
+  });
+  europeZoneSelect.addEventListener('change', updateRouteChip);
+  document.getElementById('from').addEventListener('change', updateRouteChip);
+
+  function updateRouteChip() {
+    const fromText = document.getElementById('from').selectedOptions[0].textContent.split(',')[0];
+    let toText = toDestination.selectedOptions[0].textContent.split(' (')[0];
+    
+    if (toDestination.value === 'europe') {
+      const zoneLabel = europeZoneSelect.value.replace('zone', 'Zona ');
+      toText = `Europe (${zoneLabel})`;
+    }
+    routeChip.textContent = `${fromText} → ${toText}`;
+  }
+
+  document.getElementById('addBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const label = document.getElementById('addLabel').value.trim();
+    const val = parseFloat(document.getElementById('addValue').value) || 0;
+    if (label && val > 0) {
+      extras.push({ label, value: val });
+      renderExtras();
+      document.getElementById('addLabel').value = '';
+      document.getElementById('addValue').value = '';
+    }
+  });
+
+  function renderExtras() {
+    extrasList.innerHTML = '';
+    extras.forEach((e, idx) => {
+      const el = document.createElement('div');
+      el.className = 'line';
+      el.innerHTML = `<div>${e.label}</div><div>${formatIDR(e.value)} <button data-idx="${idx}" class="secondary" style="padding:2px 6px; font-size:10px;">x</button></div>`;
+      extrasList.appendChild(el);
+    });
+    
+    extrasList.querySelectorAll('button').forEach(b => b.addEventListener('click', ev => {
+      extras.splice(+ev.target.dataset.idx, 1);
+      renderExtras();
+    }));
+  }
+
+  function calculateEstimate() {
+    const targetCountry = toDestination.value;
+    const inputWeight = Math.ceil(parseFloat(document.getElementById('weight').value) || 1);
+
+    let freight = 0;
+    let sfiSurcharge = 0;
+    let portCustoms = 150000; 
+    let insurance = 0;
+    let totalExtras = extras.reduce((sum, item) => sum + item.value, 0);
+
+    if (SFI_PRICELIST[targetCountry]) {
+      let table = SFI_PRICELIST[targetCountry];
+      let activeSurchargeConfig = table;
+
+      if (targetCountry === 'europe') {
+        const activeZone = europeZoneSelect.value;
+        table = SFI_PRICELIST.europe[activeZone];
+        activeSurchargeConfig = SFI_PRICELIST.europe;
+      }
+      
+      if (activeSurchargeConfig.maxWeight && inputWeight > activeSurchargeConfig.maxWeight) {
+        alert(`Warning: Maximum allowed packet weight for this route is ${activeSurchargeConfig.maxWeight}kg.`);
+      }
+
+      if (table[inputWeight]) {
+        freight = table[inputWeight];
+      } else {
+        const availableWeights = Object.keys(table).map(Number).filter(n => !isNaN(n));
+        const maxWeightTier = Math.max(...availableWeights);
+        const baselinePrice = table[maxWeightTier];
+        const perKgFactor = baselinePrice / maxWeightTier;
+        freight = inputWeight * perKgFactor;
+      }
+
+      // Automatically calculates the specific weight thresholds from SFI rules[cite: 4]
+      if (activeSurchargeConfig.surchargeThreshold && inputWeight > activeSurchargeConfig.surchargeThreshold) {
+        sfiSurcharge = activeSurchargeConfig.surchargeFee;
+      }
+      
+      insurance = freight * 0.005;
+    }
+
+    const activeIncoterm = document.getElementById('incoterm').value;
+    if (activeIncoterm === 'CIF') freight += (portCustoms * 0.2);
+    
+    if (document.getElementById('service').value === 'express') {
+      freight *= 1.20; 
+    }
+
+    const grandTotal = freight + sfiSurcharge + portCustoms + insurance + totalExtras;
+
+    document.getElementById('freightVal').textContent = formatIDR(freight);
+    document.getElementById('truckVal').textContent = formatIDR(sfiSurcharge);
+    document.getElementById('portVal').textContent = formatIDR(portCustoms);
+    document.getElementById('insVal').textContent = formatIDR(insurance);
+    document.getElementById('extrasVal').textContent = formatIDR(totalExtras);
+    document.getElementById('totalVal').textContent = formatIDR(grandTotal);
+  }
+
+  estimateBtn.addEventListener('click', calculateEstimate);
+
+  resetBtn.addEventListener('click', () => {
+    document.getElementById('weight').value = '5';
+    toDestination.value = 'usa';
+    europeZoneWrap.style.display = 'none';
+    extras = [];
+    renderExtras();
+    ['freightVal', 'truckVal', 'portVal', 'insVal', 'extrasVal', 'totalVal'].forEach(id => {
+      document.getElementById(id).textContent = '-';
+    });
+    updateRouteChip();
+  });
+
+  updateRouteChip();
+</script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
