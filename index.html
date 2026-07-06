@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>TRACKFAST</title>
-    <link rel="stylesheet" href="./style.css">
-
-  </head>
-    
-  <body>
-  <!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -28,23 +17,19 @@
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-    .small-card { background: #f8fafc; border: 1px solid #e2e8f0; }
     h2, h3 { color: #2d3748; margin-bottom: 15px; }
     p.small { font-size: 13px; color: #718096; margin-bottom: 15px; }
     .row { display: flex; gap: 15px; margin-bottom: 10px; }
     .col { flex: 1; display: flex; flex-direction: column; }
     label { font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #4a5568; }
     select, input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: white; }
-    .add-cost { display: flex; gap: 10px; }
-    .add-cost input[type="text"] { flex: 2; }
-    .add-cost input[type="number"] { flex: 1; }
     button { padding: 12px 20px; background: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
     button:hover { background: #2c5282; }
     button.secondary { background: #edf2f7; color: #4a5568; border: 1px solid #cbd5e1; }
     button.secondary:hover { background: #e2e8f0; }
     .controls { justify-content: flex-start; }
     .breakdown .line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 14px; }
-    .breakdown .total { border-top: 2px solid #2d3748; font-weight: bold; font-size: 16px; margin-top: 10px; border-bottom: none; color: #1a365d; }
+    .breakdown .total { border-top: 2px solid #2d3748; font-weight: bold; font-size: 18px; margin-top: 15px; border-bottom: none; color: #1a365d; padding-top: 10px; }
     .muted { color: #718096; }
     .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #a0aec0; }
   </style>
@@ -75,7 +60,7 @@
     <section class="card">
       <h2>Rate Calculator</h2>
       <p class="small">
-        Select your destination and package weight to calculate instant costs from our official June 2026 Regular Service matrix[cite: 4].
+        Select your destination and package weight to verify the freight pricing matching our official Regular Service matrix[cite: 4].
       </p>
 
       <!-- ORIGIN & DESTINATION -->
@@ -122,74 +107,43 @@
         </div>
       </div>
 
-      <!-- WEIGHT & SERVICES -->
+      <!-- WEIGHT & SERVICE LEVEL -->
       <div class="row" style="margin-top:10px">
-        <div class="col">
+        <div class="col" style="flex: 2;">
           <label>Weight (kg)</label>
           <input id="weight" type="number" min="1" max="500" value="5">
         </div>
-        <div class="col">
+        <div class="col" style="flex: 2;">
           <label>Service Level</label>
           <select id="service">
             <option value="standard">Standard Regular Service</option>
-            <option value="express">Express Surcharge (+20%)</option>
+            <option value="express">Express Service (+20%)</option>
           </select>
         </div>
-        <div class="col">
-          <label>Incoterms</label>
-          <select id="incoterm">
-            <option value="FOB">FOB</option>
-            <option value="CIF">CIF</option>
-            <option value="CNF">CNF</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- ADDITIONAL SURCHARGES -->
-      <div class="card small-card" style="margin-top:15px">
-        <label class="small">Manual Surcharges Adjustments (Optional)</label>
-        <div class="add-cost">
-          <input id="addLabel" type="text" placeholder="e.g., Remote Area Surcharge">
-          <input id="addValue" type="number" placeholder="Amount (IDR)">
-          <button class="secondary" id="addBtn">Add</button>
-        </div>
-        <div id="extrasList" style="margin-top:8px"></div>
       </div>
 
       <!-- CONTROLS -->
-      <div class="row controls" style="margin-top:20px">
+      <div class="row controls" style="margin-top:25px">
         <button id="estimateBtn" style="flex: 2;">Calculate Price</button>
         <button id="reset" class="secondary" style="flex: 1;">Reset</button>
       </div>
     </section>
 
-    <!-- RIGHT SIDE: CALCULATION OUTPUT -->
+    <!-- RIGHT SIDE: CALCULATION OUTPUT ONLY -->
     <aside class="card h-100">
-      <h3>Price Breakdown</h3>
+      <h3>Price Result</h3>
       <div class="estimate" id="estimateArea">
         <div class="breakdown" id="breakdown">
           <div class="line">
-            <div class="muted">Base Freight Cost</div>
+            <div class="muted">Base Matrix Freight Cost</div>
             <div id="freightVal">-</div>
           </div>
           <div class="line">
-            <div class="muted">Weight Handling Surcharge</div>
+            <div class="muted">Document Surcharge / Handling</div>
             <div id="truckVal">-</div>
           </div>
-          <div class="line">
-            <div class="muted">Port & Customs Base Fee</div>
-            <div id="portVal">-</div>
-          </div>
-          <div class="line">
-            <div class="muted">Insurance Coverage</div>
-            <div id="insVal">-</div>
-          </div>
-          <div class="line">
-            <div class="muted">Additional Custom Surcharges</div>
-            <div id="extrasVal">-</div>
-          </div>
           <div class="line total">
-            <div>Total Estimated Cost</div>
+            <div>Total Freight Price</div>
             <div id="totalVal">-</div>
           </div>
         </div>
@@ -204,7 +158,7 @@
 </div>
 
 <script>
-  // Complete SFI June 2026 Grid Matrix with updated data[cite: 4]
+  // Complete SFI June 2026 Grid Matrix Data[cite: 4]
   const SFI_PRICELIST = {
     usa: {
       1: 828000, 2: 1060000, 3: 1335000, 4: 1585000, 5: 1973000, 6: 2225000, 7: 2484000, 
@@ -252,7 +206,6 @@
     south_korea: { 1: 550000, 5: 930000, 10: 1700000, 20: 3400000, 30: 5100000 },
     hong_kong: { 1: 550000, 5: 900000, 10: 1600000, 20: 3100000, 30: 4800000 },
 
-    // Southeast Asia Matrix Data Lookups[cite: 4]
     singapore: {
       1: 138001, 2: 214001, 3: 308001, 4: 400001, 5: 492001, 6: 586001, 7: 678001, 8: 770001, 9: 864001, 10: 956001,
       11: 1048001, 12: 1142001, 13: 1234001, 14: 1328001, 15: 1420011, 16: 1512001, 17: 1606001, 18: 1698001, 19: 1790001, 20: 1884001,
@@ -312,15 +265,12 @@
     }
   };
 
-  const extrasList = document.getElementById('extrasList');
   const estimateBtn = document.getElementById('estimateBtn');
   const resetBtn = document.getElementById('reset');
   const routeChip = document.getElementById('routeChip');
   const toDestination = document.getElementById('to');
   const europeZoneWrap = document.getElementById('europeZoneWrap');
   const europeZoneSelect = document.getElementById('europeZone');
-
-  let extras = [];
 
   function formatIDR(amount) {
     return 'Rp ' + Math.round(amount).toLocaleString('id-ID');
@@ -348,42 +298,12 @@
     routeChip.textContent = `${fromText} → ${toText}`;
   }
 
-  document.getElementById('addBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    const label = document.getElementById('addLabel').value.trim();
-    const val = parseFloat(document.getElementById('addValue').value) || 0;
-    if (label && val > 0) {
-      extras.push({ label, value: val });
-      renderExtras();
-      document.getElementById('addLabel').value = '';
-      document.getElementById('addValue').value = '';
-    }
-  });
-
-  function renderExtras() {
-    extrasList.innerHTML = '';
-    extras.forEach((e, idx) => {
-      const el = document.createElement('div');
-      el.className = 'line';
-      el.innerHTML = `<div>${e.label}</div><div>${formatIDR(e.value)} <button data-idx="${idx}" class="secondary" style="padding:2px 6px; font-size:10px;">x</button></div>`;
-      extrasList.appendChild(el);
-    });
-    
-    extrasList.querySelectorAll('button').forEach(b => b.addEventListener('click', ev => {
-      extras.splice(+ev.target.dataset.idx, 1);
-      renderExtras();
-    }));
-  }
-
   function calculateEstimate() {
     const targetCountry = toDestination.value;
     const inputWeight = Math.ceil(parseFloat(document.getElementById('weight').value) || 1);
 
     let freight = 0;
     let sfiSurcharge = 0;
-    let portCustoms = 150000; 
-    let insurance = 0;
-    let totalExtras = extras.reduce((sum, item) => sum + item.value, 0);
 
     if (SFI_PRICELIST[targetCountry]) {
       let table = SFI_PRICELIST[targetCountry];
@@ -409,28 +329,20 @@
         freight = inputWeight * perKgFactor;
       }
 
-      // Automatically calculates the specific weight thresholds from SFI rules[cite: 4]
+      // Check for SFI Handling Surcharge triggers[cite: 4]
       if (activeSurchargeConfig.surchargeThreshold && inputWeight > activeSurchargeConfig.surchargeThreshold) {
         sfiSurcharge = activeSurchargeConfig.surchargeFee;
       }
-      
-      insurance = freight * 0.005;
     }
 
-    const activeIncoterm = document.getElementById('incoterm').value;
-    if (activeIncoterm === 'CIF') freight += (portCustoms * 0.2);
-    
     if (document.getElementById('service').value === 'express') {
       freight *= 1.20; 
     }
 
-    const grandTotal = freight + sfiSurcharge + portCustoms + insurance + totalExtras;
+    const grandTotal = freight + sfiSurcharge;
 
     document.getElementById('freightVal').textContent = formatIDR(freight);
     document.getElementById('truckVal').textContent = formatIDR(sfiSurcharge);
-    document.getElementById('portVal').textContent = formatIDR(portCustoms);
-    document.getElementById('insVal').textContent = formatIDR(insurance);
-    document.getElementById('extrasVal').textContent = formatIDR(totalExtras);
     document.getElementById('totalVal').textContent = formatIDR(grandTotal);
   }
 
@@ -439,10 +351,9 @@
   resetBtn.addEventListener('click', () => {
     document.getElementById('weight').value = '5';
     toDestination.value = 'usa';
+    document.getElementById('service').value = 'standard';
     europeZoneWrap.style.display = 'none';
-    extras = [];
-    renderExtras();
-    ['freightVal', 'truckVal', 'portVal', 'insVal', 'extrasVal', 'totalVal'].forEach(id => {
+    ['freightVal', 'truckVal', 'totalVal'].forEach(id => {
       document.getElementById(id).textContent = '-';
     });
     updateRouteChip();
@@ -451,9 +362,4 @@
   updateRouteChip();
 </script>
 </body>
-</html>
-    <script  src="./script.js"></script>
-
-  </body>
-  
 </html>
